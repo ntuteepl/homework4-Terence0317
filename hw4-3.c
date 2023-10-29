@@ -3,26 +3,97 @@
 
 int main()
 {
-    int n, i, j = 0, k = 0, car;
-    while(scanf("%d", &n) != EOF){
-        int array[2*n], s[n], d[n], dispatch = 0;
-        for (i = 0 ; i < 2*n ; i++) scanf("%d", &array[i]);
-        for (i = 0 ; i < 2*n ; i++){ //n為0或偶數時為發車時間 奇數為回程時間
-            if (i == 0  || i % 2 == 0){
-                s[j] = array[i]; //將發車時間存入s[n]陣列
-                j += 1;
-            }
-            else{
-                d[k] = array[i]; //將回程時間存入d[n]陣列
-                k += 1;
-            }
-        }
-        for (i = 0 ; i < n ; i++) if (0 < s[i] && s[i] < d[i] && d[i] <= 24) dispatch = 1;
-        if (dispatch){
-            car =  n;
-            for (i = 0 ; i < n ; i++) for ( j = 0 ; j < n ; j++) if (s[i] < s[j] && d[i] <= s[j]) car -= 1;
-            printf("\n%d", car);
-        }
-        else return 0;
+    int i = 0, j = 0, k = 0, x = 0, loop = 1, sum = 0, num = 0, s[100], d[100], sf[100], df[100], s1, d1, count = 0;
+    while(scanf("%d%d",&s[i],&d[i]) != EOF)
+    {
+        i++;
+        count++;
     }
+
+    for(i = 0 ; i < count - 1 ; i++)
+    {
+        for(int j = 0 ; j < count ; j++)
+        {
+            if(s[j] > s[j+1])
+            {
+                s1 = s[j];
+                s[j] = s[j+1];
+                s[j+1] = s1;
+
+                d1 = d[j];
+                d[j] = d[j+1];
+                d[j+1] = d1;
+            }
+        }
+    }
+
+    for(i = 0 ; i < count ; i++)
+    {
+        sf[i] = s[i];
+        df[i] = d[i];
+    }
+
+    while(loop)
+    {
+        for(i = 0 ; i < count ; i++)
+        {
+            sum = 0;
+
+            if(d[x] <= s[i])
+            {
+                x = i;
+                s[i] = 0;
+            }
+            s[x] = 0;
+
+            if(i == count-1)
+            {
+                num++;
+                for(j = 0 ; j < count ; j++)
+                {
+                    if(s[j] != 0)
+                    {
+                        x = j;
+                        j = count;
+                    }
+                }
+            }
+
+            for(k = 0 ; k < count ; k++)
+            sum = sum + s[k];
+            if(!sum) loop = 0;
+        }
+    }
+
+    printf("%d", num);
+    x = 0;
+
+    for(i = 0 ; i < num ; i++)
+    {
+        printf("\nDriver %d's schedule is %d %d ", i+1, sf[x], df[x]);
+
+        for(j = 0; j < count ; j++)
+        {
+            if(df[x] <= sf[j])
+            {
+                x = j;
+                printf("%d %d ",sf[j],df[j]);
+                sf[j] = 0;
+            }
+            sf[x] = 0;
+
+            if(j == count-1)
+            {
+                for(k = 0; k < count ; k++)
+                {
+                    if(sf[k] != 0)
+                    {
+                        x = k;
+                        k = count;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
 }
