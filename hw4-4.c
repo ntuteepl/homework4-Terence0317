@@ -9,7 +9,7 @@ int main()
     int array[n][n];
     for (i = 0 ; i < n ; i++) for (j = 0 ; j < n ; j++) scanf("%d", &array[i][j]);
     for (i = 0 ; i < n ; i++){
-        max = array[0][i];
+        max = array[0][0];
         for (j = 0 ; j < n ; j++){
             for (k = 0 ; k < n ; k++){
                 if (max <= array[i][j]){
