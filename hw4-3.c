@@ -1,10 +1,9 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
 int main()
 {
-    int n, i, j = 0, k = 0, car = 3;
+    int n, i, j = 0, k = 0, car;
     while(scanf("%d", &n) != EOF){
         int array[2*n], s[n], d[n], dispatch = 0;
         for (i = 0 ; i < 2*n ; i++) scanf("%d", &array[i]);
@@ -20,11 +19,8 @@ int main()
         }
         for (i = 0 ; i < n ; i++) if (0 < s[i] && s[i] < d[i] && d[i] <= 24) dispatch = 1;
         if (dispatch){
-            for (i = 0 ; i < n ; i++){
-                for (j = 0 ; j < n ; j++){
-                    if (car > 1 && d[i] <= s[j]) car -= 1;
-                }
-            }
+            car =  n;
+            for (i = 0 ; i < n ; i++) for ( j = 0 ; j < n ; j++) if (s[i] < s[j] && d[i] <= s[j]) car -= 1;
             printf("\n%d", car);
         }
         else return 0;
